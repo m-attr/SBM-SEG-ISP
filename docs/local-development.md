@@ -188,4 +188,6 @@ These notes record the configuration of the laptop used for the initial setup. T
 
 ## Database and deployment
 
-The database setup and deployment process are to be discussed. Neither is configured yet.
+The hosted development database connection is configured. See [Database setup](database.md) to configure your personal connection and run the checker.
+
+The hosted application and deployment process will be configured separately.

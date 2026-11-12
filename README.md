@@ -4,7 +4,7 @@ A collaborative SBM × SEG Infocomm System Project to develop a web-based tuitio
 
 ## Current status
 
-The PHP project foundation is ready for development. Application features and database integration have not been implemented yet.
+The PHP project foundation and a secure connection to the hosted development database are ready. Application features and database tables have not been implemented yet.
 
 ## Requirements
 
@@ -91,13 +91,16 @@ sbm-seg-isp/
 │   ├── attendance/
 │   ├── students/
 │   └── shared/
-│       └── bootstrap.php
+│       ├── bootstrap.php
+│       └── database.php
 ├── config/
 │   ├── local.example.php
 │   └── local.php
 ├── database/
 │   ├── migrations/
 │   └── seeds/
+├── scripts/
+│   └── check-db.php
 ├── docs/
 ├── .vscode/
 │   └── launch.json
@@ -113,6 +116,8 @@ sbm-seg-isp/
 | `public/assets/` | Stylesheets, browser JavaScript and images. |
 | `app/` | PHP application logic, organised into areas such as authentication, attendance and students. These module folders are currently placeholders. |
 | `app/shared/bootstrap.php` | Loads the personal configuration and provides shared helpers for generating URLs and escaping HTML text. |
+| `app/shared/database.php` | Opens a PDO database connection over TLS with server-certificate verification. |
+| `scripts/check-db.php` | Command-line connectivity check that leaves application data unchanged. |
 | `config/local.example.php` | Shared configuration template that developers copy when setting up the project. |
 | `config/local.php` | Personal configuration, excluded from Git. |
 | `database/migrations/` | Future versioned scripts describing database structure changes. Currently empty. |
@@ -135,6 +140,10 @@ Empty folders contain `.gitkeep` placeholders so Git includes them.
 
 ## Database and hosting
 
-Database connectivity and deployment are not configured yet. Connection instructions and database-change rules will be documented when agreed.
+A shared development database is hosted on alwaysdata. Add its connection settings to your ignored `config/local.php`, then run `php scripts/check-db.php` from the repository root. The starter page does not require a database connection.
+
+See [Database setup](docs/database.md) for credentials configuration, TLS certificates and shared database-change rules.
+
+The hosted PHP application and automatic deployment are not configured yet. Deployment will be handled separately.
 
 Pushing application code to GitHub does not, by itself, update a hosted application or database.
