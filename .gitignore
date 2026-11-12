@@ -1,0 +1,4 @@
+/config/local.php
+/vendor/
+*.log
+/.vscode/settings.json

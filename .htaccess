@@ -1,0 +1,4 @@
+Options -Indexes
+RewriteEngine On
+# Only the public directory is web-accessible.
+RewriteRule ^(?!public(?:/|$)) - [F,L]
