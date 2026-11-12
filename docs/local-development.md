@@ -190,4 +190,4 @@ These notes record the configuration of the laptop used for the initial setup. T
 
 The hosted development database connection is configured. See [Database setup](database.md) to configure your personal connection and run the checker.
 
-The hosted application and deployment process will be configured separately.
+The development application is hosted on alwaysdata. See [Deployment](deployment.md) for automatic deployment from `main` and how to check its result.

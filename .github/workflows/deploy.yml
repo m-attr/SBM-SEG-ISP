@@ -1,0 +1,50 @@
+name: Deploy PHP to alwaysdata
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alwaysdata-main
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: alwaysdata
+      url: https://seg-sbm-isp.alwaysdata.net
+    steps:
+      - name: Deploy the exact main commit
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ALWAYSDATA_SSH_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$SSH_PRIVATE_KEY"
+          umask 077
+          key="$RUNNER_TEMP/alwaysdata-key"
+          known="$RUNNER_TEMP/alwaysdata-known-hosts"
+          trap 'rm -f "$key" "$known"' EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$key"
+          unset SSH_PRIVATE_KEY
+          printf '%s\n' 'ssh-seg-sbm-isp.alwaysdata.net ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILFC808n0lKFAA1QsutTFWO+pNyuUo7I1FlCqLn60uO2' > "$known"
+          ssh -T -o BatchMode=yes -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$known" \
+            -o ConnectTimeout=20 -i "$key" \
+            seg-sbm-isp@ssh-seg-sbm-isp.alwaysdata.net "deploy $GITHUB_SHA"
+      - name: Verify the published PHP version
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual=$(curl --fail --silent --show-error --retry 5 --retry-delay 2 \
+            "https://seg-sbm-isp.alwaysdata.net/deployment-version.php?commit=$GITHUB_SHA")
+          test "$actual" = "$GITHUB_SHA"
+          curl --fail --silent --show-error --output /dev/null \
+            https://seg-sbm-isp.alwaysdata.net/

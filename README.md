@@ -4,7 +4,7 @@ A collaborative SBM × SEG Infocomm System Project to develop a web-based tuitio
 
 ## Current status
 
-The PHP project foundation and a secure connection to the hosted development database are ready. Application features and database tables have not been implemented yet.
+The PHP project foundation, hosted starter page and secure connection to the hosted development database are ready. Application features and database tables have not been implemented yet.
 
 ## Requirements
 
@@ -144,6 +144,6 @@ A shared development database is hosted on alwaysdata. Add its connection settin
 
 See [Database setup](docs/database.md) for credentials configuration, TLS certificates and shared database-change rules.
 
-The hosted PHP application and automatic deployment are not configured yet. Deployment will be handled separately.
+The development application is hosted at [seg-sbm-isp.alwaysdata.net](https://seg-sbm-isp.alwaysdata.net/). Pushes to `main` deploy through GitHub Actions; other branches do not deploy. See [Deployment](docs/deployment.md) for the workflow, server layout and recovery instructions.
 
-Pushing application code to GitHub does not, by itself, update a hosted application or database.
+Application deployment does not apply database migrations or change database contents.

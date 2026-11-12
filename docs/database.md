@@ -4,7 +4,7 @@
 
 The project uses an alwaysdata-hosted MariaDB development database. Its initial connection has been verified; no application tables or sample data have been created yet.
 
-Local WAMP applications can connect to this shared database over the internet. The hosted PHP application will be configured separately.
+Local WAMP applications can connect to this shared database over the internet. The hosted PHP application uses its own private server configuration for the same development database. See [Deployment](deployment.md) for how the hosted code is updated.
 
 ## Personal configuration
 
