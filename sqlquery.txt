@@ -1,0 +1,122 @@
+
+CREATE TABLE roles (
+    role_id INT AUTO_INCREMENT NOT NULL,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    PRIMARY KEY (role_id)
+);
+
+
+CREATE TABLE tuition_agencies (
+    tuition_id INT AUTO_INCREMENT NOT NULL,
+    tuition_name VARCHAR(150) NOT NULL,
+    tuition_location VARCHAR(255),
+    PRIMARY KEY (tuition_id)
+);
+
+
+
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT NOT NULL,
+    role_id INT NOT NULL,
+    full_name VARCHAR(150) NOT NULL,
+    email_address VARCHAR(255) UNIQUE NOT NULL,
+    phone_number VARCHAR(20),
+    password_hash VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (user_id),
+
+    FOREIGN KEY (role_id) REFERENCES roles(role_id)
+);
+
+
+
+
+
+
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT NOT NULL,
+    student_name VARCHAR(150) NOT NULL,
+    tuition_id INT NOT NULL,
+    academic_level VARCHAR(50) NOT NULL,
+
+    PRIMARY KEY (student_id),
+
+    FOREIGN KEY (tuition_id) REFERENCES tuition_agencies(tuition_id)
+);
+
+
+CREATE TABLE class_sessions (
+    session_id INT AUTO_INCREMENT NOT NULL,
+    student_id INT NOT NULL,
+    tuition_id INT NOT NULL,
+    class_name VARCHAR(100) NOT NULL,
+    session_datetime DATETIME NOT NULL,
+    location VARCHAR(150),
+    class_status VARCHAR(20) NOT NULL,
+
+    PRIMARY KEY (session_id),
+
+    FOREIGN KEY (tuition_id) REFERENCES tuition_agencies(tuition_id),
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+);
+
+
+
+CREATE TABLE attendance_records (
+    attendance_id INT AUTO_INCREMENT NOT NULL,
+    session_id INT UNIQUE NOT NULL,
+    attendance_status ENUM('Present', 'Absent') NOT NULL,
+    submitted_by INT NOT NULL,
+    submitted_at DATETIME NOT NULL,
+    absence_reason TEXT,
+    reason_updated_at DATETIME,
+    reviewed_at DATETIME,
+
+    PRIMARY KEY (attendance_id),
+
+    FOREIGN KEY (session_id) REFERENCES class_sessions(session_id),
+    FOREIGN KEY (submitted_by) REFERENCES users(user_id)
+);
+
+
+
+CREATE TABLE communication_logs (
+    notification_id INT AUTO_INCREMENT NOT NULL,
+    recipient_user_id INT NOT NULL,
+    session_id INT,
+    attendance_id INT,
+    notification_type VARCHAR(50) NOT NULL,
+    notification_status ENUM('Unread', 'Read') NOT NULL,
+    created_at DATETIME NOT NULL,
+    read_at DATETIME,
+    triggered_by_user_id INT,
+    email_status ENUM('Not Sent', 'Pending', 'Sent', 'Failed'),
+    email_sent_at DATETIME,
+
+    PRIMARY KEY (notification_id),
+
+    FOREIGN KEY (recipient_user_id) REFERENCES users(user_id),
+    FOREIGN KEY (session_id) REFERENCES class_sessions(session_id),
+    FOREIGN KEY (attendance_id) REFERENCES attendance_records(attendance_id),
+    FOREIGN KEY (triggered_by_user_id) REFERENCES users(user_id)
+);
+
+
+CREATE TABLE users_tuition_agency (
+    user_id INT NOT NULL,
+    tuition_id INT NOT NULL,
+
+    PRIMARY KEY (user_id),
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (tuition_id) REFERENCES tuition_agencies(tuition_id)
+);
+
+
+
+
+
+
+
+
