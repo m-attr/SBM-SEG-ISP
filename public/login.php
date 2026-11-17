@@ -32,7 +32,12 @@ require_once dirname(__DIR__) . '/app/shared/bootstrap.php';
                     </div>
                 </fieldset>
             </form>
+            <?php
+            if (isset($_GET['error']) && $_GET['error'] == 'invalidLogin') {
+                echo "<script>document.getElementById('submission_err').innerHTML = 'Invalid login'</script>";
+            } ?>
         </div>
+
     </main>
     <script src="js/jquery.js"></script>
     <script src="js/login.js"></script>
