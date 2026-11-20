@@ -1,0 +1,81 @@
+/* 
+Features 
+1. Font
+2. Button
+*/
+
+body {
+    font-family: inter;
+}
+
+/* Button */
+
+.btn {
+    border: 0px;
+    height: 3em;
+    width: 100%;
+    border-radius: 1em;
+    width: 100%;
+}
+
+.unfilled {
+    border: 1px solid #8AA5BA;
+    background-color: #F7F9FC  ;
+}
+
+.unfilled:hover {
+    border: 1px solid #688BA7;
+}
+
+
+/* Table */
+table {
+    width: 80%;
+    place-self: center;
+    text-align: left;
+    border: 1px solid #D2DAE5;
+    border-radius: 1em;
+    border-collapse: separate;
+    table-layout: fixed;
+}
+
+tr td {
+    border-top: 1px solid #D2DAE5;
+}
+
+tr td,
+tr th {
+    padding: 1.5%;
+}
+
+tr th {
+    background-color: #F1F4F8;
+    color: #4B6077;
+}
+
+
+tr td {
+    color: #1F2937;
+    background-color: #F7F9FC;
+}
+
+tr:last-child td {
+    background-color: white;
+}
+
+tr:first-child *:first-child {
+    border-radius: 1em 0 0 0;
+}
+
+tr:first-child *:last-child {
+    border-radius: 0 1em 0 0;
+}
+
+
+tr:last-child * {
+    border-radius: 0 0 1em 1em;
+}
+
+td:has(button){
+    width: fit-content;
+}
